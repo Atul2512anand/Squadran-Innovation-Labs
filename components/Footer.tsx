@@ -26,7 +26,7 @@ export function Footer() {
                   <Mail className="w-4 h-4" />
                 </div>
                 <a href="mailto:hello@squadran.com" className="hover:text-white transition-colors">
-                  hello@squadran.com
+                   operations@squadrancampus.in
                 </a>
               </div>
               
