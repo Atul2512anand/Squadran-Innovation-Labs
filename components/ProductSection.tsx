@@ -12,7 +12,7 @@ const products = [
     name: "Nexora",
     description: "Where Digital Campuses Become Future-Ready.Delivering a Unified, Agile Digital Ecosystem that replaces fragmented apps with one secure environment.",
     icon: LayoutDashboard,
-    link: "#nexus",
+    link: "https://nexora-web-six.vercel.app/",
     color: "from-blue-400 to-cyan-300"
   },
   {
@@ -20,7 +20,7 @@ const products = [
     name: "Fluxo",
     description: "Making event management very easy",
     icon: Globe,
-    link: "#orbit",
+    link: "https://fluxo-blue.vercel.app/",
     color: "from-purple-400 to-pink-300"
   },
   {
@@ -28,7 +28,7 @@ const products = [
     name: "BuilForage",
     description: "Where student ideas are forged into products.",
     icon: Zap,
-    link: "#catalyst",
+    link: "https://build-forge-five.vercel.app/",
     color: "from-amber-400 to-orange-300"
   },
   {
