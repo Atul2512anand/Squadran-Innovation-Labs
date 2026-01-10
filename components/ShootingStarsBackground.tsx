@@ -1,21 +1,52 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface Star {
-  id: number;
-  top: number;
-  left: number;
-  delay: number;
-  duration: number;
+  x: number;
+  y: number;
+  length: number;
+  speed: number;
   color: string;
+  width: number;
 }
 
 export function ShootingStarsBackground() {
-  const [stars, setStars] = useState<Star[]>([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
+  // Handle Resize
   useEffect(() => {
-    const starCount = 20;
+    const handleResize = () => {
+      // Use window.inner* to get accurate viewport size on mobile
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    // Initialize dimensions immediately
+    handleResize();
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Animation Loop
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || dimensions.width === 0 || dimensions.height === 0) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    // Set exact canvas size to match display size for sharp rendering
+    canvas.width = dimensions.width;
+    canvas.height = dimensions.height;
+
+    let animationFrameId: number;
+    const stars: Star[] = [];
+    
     const colors = [
       '#22d3ee', // Cyan
       '#e879f9', // Magenta
@@ -26,56 +57,99 @@ export function ShootingStarsBackground() {
       '#ffffff', // White
     ];
 
-    const generateStars = () => {
-      return Array.from({ length: starCount }).map((_, i) => ({
-        id: i,
-        // Spread starting positions across a wider area to ensure coverage
-        top: Math.random() * 100, 
-        left: Math.random() * 100,
-        delay: Math.random() * 5, // Random start times
-        duration: 2 + Math.random() * 4, // Varying speeds
+    // Helper: Create a new star
+    const createStar = (isInitial = false): Star => {
+      const w = dimensions.width;
+      const h = dimensions.height;
+      
+      // Determine start position
+      let x, y;
+      if (isInitial) {
+        // Spread randomly across screen initially
+        x = Math.random() * w;
+        y = Math.random() * h;
+      } else {
+        // Start from top-left area (off-screen)
+        if (Math.random() < 0.5) {
+            // Start from Top edge
+            x = Math.random() * w;
+            y = -150;
+        } else {
+            // Start from Left edge
+            x = -150;
+            y = Math.random() * h;
+        }
+      }
+
+      return {
+        x,
+        y,
+        // Tail length
+        length: 80 + Math.random() * 150,
+        // Speed
+        speed: 5 + Math.random() * 8, 
         color: colors[Math.floor(Math.random() * colors.length)],
-      }));
+        width: 1 + Math.random() * 1.5,
+      };
     };
 
-    setStars(generateStars());
-  }, []);
+    // Initialize stars
+    // Fewer stars on smaller screens to ensure max FPS
+    const density = 20000; // pixels per star (higher = fewer stars)
+    const count = Math.min(Math.floor((dimensions.width * dimensions.height) / density), 30);
+    
+    for (let i = 0; i < count; i++) {
+      stars.push(createStar(true));
+    }
+
+    const render = () => {
+      // Clear canvas
+      ctx.clearRect(0, 0, dimensions.width, dimensions.height);
+
+      // Update and draw each star
+      stars.forEach((star, index) => {
+        // Move diagonally (45 degrees: x and y increase equally)
+        star.x += star.speed;
+        star.y += star.speed;
+
+        // Calculate tail position (behind the head)
+        const tailX = star.x - star.length;
+        const tailY = star.y - star.length;
+
+        // Draw the star trail using a gradient
+        const gradient = ctx.createLinearGradient(star.x, star.y, tailX, tailY);
+        gradient.addColorStop(0, star.color); // Head (bright)
+        gradient.addColorStop(1, 'transparent'); // Tail (fades out)
+
+        ctx.beginPath();
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = star.width;
+        ctx.lineCap = 'round';
+        ctx.moveTo(star.x, star.y);
+        ctx.lineTo(tailX, tailY);
+        ctx.stroke();
+
+        // Reset star if it goes off screen (bottom or right)
+        // Add buffer to ensure tail fully leaves screen before recycling
+        if (tailX > dimensions.width || tailY > dimensions.height) {
+          stars[index] = createStar();
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [dimensions]);
 
   return (
-    <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-      <style>
-        {`
-          @keyframes shooting-star-animation {
-            0% {
-              transform: translateX(0) translateY(0) rotate(45deg) scale(0.8);
-              opacity: 0;
-            }
-            10% {
-              opacity: 1;
-            }
-            100% {
-              transform: translateX(100vmax) translateY(100vmax) rotate(45deg) scale(0.8);
-              opacity: 0;
-            }
-          }
-        `}
-      </style>
-      
-      {stars.map((star) => (
-        <div
-          key={star.id}
-          className="absolute h-[2px] w-[100px] md:w-[150px] rounded-full"
-          style={{
-            top: `${star.top - 20}%`, // Offset start to allow sliding in
-            left: `${star.left - 20}%`,
-            background: `linear-gradient(90deg, transparent, ${star.color})`,
-            boxShadow: `0 0 20px ${star.color}, 0 0 40px ${star.color}`, // Glowing effect
-            animation: `shooting-star-animation ${star.duration}s linear infinite`,
-            animationDelay: `${star.delay}s`,
-            opacity: 0,
-          }}
-        />
-      ))}
-    </div>
+    <canvas 
+      ref={canvasRef} 
+      className="fixed inset-0 w-full h-full pointer-events-none z-0"
+    />
   );
 }
