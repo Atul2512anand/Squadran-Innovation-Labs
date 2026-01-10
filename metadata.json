@@ -1,0 +1,13 @@
+{
+  "name": "Spline 3D Scene Demo",
+  "description": "A React application demonstrating interactive 3D scenes using Spline, Tailwind CSS, and shadcn/ui components.",
+  "dependencies": {
+    "clsx": "latest",
+    "tailwind-merge": "latest",
+    "@splinetool/react-spline": "latest",
+    "@splinetool/runtime": "latest",
+    "framer-motion": "latest",
+    "lucide-react": "latest"
+  },
+  "requestFramePermissions": []
+}
