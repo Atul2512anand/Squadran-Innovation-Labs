@@ -27,7 +27,7 @@ export function SplineSceneBasic() {
             Squadran Innovation Labs
           </h1>
           <p className="mt-4 text-neutral-300 max-w-lg">
-            Empowering campuses with an intelligent digital ecosystem // redeploy trigger
+            Empowering campuses with an intelligent digital ecosystem 
 
           </p>
         </div>
