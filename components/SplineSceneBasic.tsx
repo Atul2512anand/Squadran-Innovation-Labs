@@ -3,7 +3,7 @@
 import { SplineScene } from "@/components/ui/splite";
 import { Card } from "@/components/ui/card"
 import { Spotlight } from "@/components/ui/spotlight"
-import squadranLogo from '@/logo-squadran.jpg';
+
 
 export function SplineSceneBasic() {
   return (
@@ -18,7 +18,7 @@ export function SplineSceneBasic() {
         <div className="flex-1 p-8 relative z-10 flex flex-col justify-center">
           <div className="bg-white rounded-xl p-2 w-20 h-20 flex items-center justify-center overflow-hidden mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <img
-              src={squadranLogo}
+              src="/logo-squadran.jpg"
               alt="Squadran Logo"
               className="w-full h-full object-contain"
             />
