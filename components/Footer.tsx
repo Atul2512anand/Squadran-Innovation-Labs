@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Mail, MapPin, MessageSquare, Github, Twitter, Linkedin } from 'lucide-react';
-import squadranLogo from '@/logo-squadran.jpg';
+
 
 export function Footer() {
   return (
@@ -15,7 +15,7 @@ export function Footer() {
             <div className="space-y-4">
               <div className="bg-white rounded-lg p-1 w-16 h-16 flex items-center justify-center overflow-hidden mb-6">
                 <img
-                  src={squadranLogo}
+                  src="/logo-squadran.jpg"
                   alt="Squadran Logo"
                   className="w-full h-full object-contain"
                 />
