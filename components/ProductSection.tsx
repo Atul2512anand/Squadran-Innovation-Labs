@@ -4,13 +4,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { LayoutDashboard, Globe, Activity, ExternalLink } from 'lucide-react';
-import buildForgeLogo from '@/logo-buildforge.jpg';
-import squadranLogo from '@/logo-squadran.jpg';
+
 
 // Custom Icon Component for BuildForge
 const BuildForgeIcon = ({ className }: { className?: string }) => (
   <img
-    src={buildForgeLogo}
+    src="/logo-buildforge.jpg"
     alt="BuildForge Logo"
     className={`${className} object-cover`}
   />
@@ -73,7 +72,7 @@ export function ProductShowcase() {
         >
           <div className="bg-white rounded-lg p-2 w-16 h-16 flex items-center justify-center overflow-hidden mb-2">
             <img
-              src={squadranLogo}
+              src="/logo-squadran.jpg"
               alt="Squadran Logo"
               className="w-full h-full object-contain"
             />
