@@ -32,7 +32,7 @@ const products: Product[] = [
     name: "Nexora",
     description: "Where Digital Campuses Become Future-Ready.Delivering a Unified, Agile Digital Ecosystem that replaces fragmented apps with one secure environment.",
     icon: LayoutDashboard,
-    link: "https://www.buildforge.site/",
+    link: "https://nexora-eb5y.vercel.app/",
     color: "from-blue-400 to-cyan-300"
   },
   {
@@ -48,7 +48,7 @@ const products: Product[] = [
     name: "BuildForge",
     description: "Where ideas are forged into products.",
     icon: BuildForgeIcon,
-    link: "https://build-forge-five.vercel.app/",
+    link: "https://www.buildforge.site/",
     color: "from-sky-400 to-blue-300"
   },
   {
