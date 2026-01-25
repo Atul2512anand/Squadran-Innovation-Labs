@@ -32,7 +32,7 @@ const products: Product[] = [
     name: "Nexora",
     description: "Where Digital Campuses Become Future-Ready.Delivering a Unified, Agile Digital Ecosystem that replaces fragmented apps with one secure environment.",
     icon: LayoutDashboard,
-    link: "https://nexora-eb5y.vercel.app/",
+    link: "https://nexora-rho-blond.vercel.app/",
     color: "from-blue-400 to-cyan-300"
   },
   {
